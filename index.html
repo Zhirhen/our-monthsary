@@ -45,6 +45,7 @@
             z-index: 10;
         }
 
+        /* The Envelope */
         .envelope {
             position: relative;
             width: 300px;
@@ -67,6 +68,7 @@
             transition: transform 0.5s 0.5s ease;
         }
 
+        /* Letter Paper */
         .letter {
             position: absolute;
             bottom: 10px;
@@ -89,8 +91,17 @@
             white-space: pre-wrap;
         }
 
-        .container.open .envelope::before { transform: rotateX(180deg); z-index: 0; }
-        .container.open .letter { transform: translateY(-120px); height: 280px; z-index: 2; }
+        /* Animation States */
+        .container.open .envelope::before {
+            transform: rotateX(180deg);
+            z-index: 0;
+        }
+
+        .container.open .letter {
+            transform: translateY(-150px);
+            height: 320px;
+            z-index: 2;
+        }
 
         .heart-seal {
             position: absolute;
@@ -103,7 +114,9 @@
             transition: opacity 0.3s;
         }
 
-        .container.open .heart-seal { opacity: 0; }
+        .container.open .heart-seal {
+            opacity: 0;
+        }
 
         .instruction {
             position: absolute;
@@ -115,33 +128,13 @@
             animation: blink 1.5s infinite;
         }
 
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-
-        /* Music Button */
-        #music-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            display: none; /* Hidden until letter is opened */
-            z-index: 100;
-            font-family: inherit;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
     </style>
 </head>
 <body>
-
-    <audio id="love-song" loop>
-        <source src="YOUR_MP3_URL_HERE" type="audio/mpeg">
-    </audio>
-
-    <button id="music-btn" onclick="toggleMusic()">🎵 Play Music</button>
 
     <div class="container" onclick="openLetter()">
         <div class="envelope">
@@ -154,15 +147,17 @@
     </div>
 
     <script>
-        const message = "Happy 7th Monthsary, Love! \n\n[Hi baby!
-Writing this code made me think about us—how every day with you is like a perfect 'stable build' and every laugh we share is a 'feature' I never want to live without. Thank you for being my constant, my peace, and my greatest love. Im sorry for all the trouble i cost in our relationship. 
+        // Set your message here
+        const message = `Happy Monthsary, my favorite human! ❤️ 
 
-I'm so grateful for every second we’ve spent together.] \n\nAlways, \n[Rhenila,your baby]";
+Every day with you is a gift. Thank you for being my constant and my greatest adventure. I'm so lucky to have you in my life.
+
+I love you more than words can say!
+
+Forever yours,
+[Your Name]`;
         
         let i = 0;
-        const song = document.getElementById("love-song");
-        const btn = document.getElementById("music-btn");
-
         function typeWriter() {
             if (i < message.length) {
                 document.getElementById("typewriter").innerHTML += message.charAt(i);
@@ -173,22 +168,10 @@ I'm so grateful for every second we’ve spent together.] \n\nAlways, \n[Rhenila
 
         function openLetter() {
             document.querySelector('.container').classList.add('open');
-            btn.style.display = "block"; // Show music button
             setTimeout(typeWriter, 1000);
-            // Try to play music automatically (works on some browsers)
-            song.play().catch(() => console.log("Autoplay blocked. User must click button."));
         }
 
-        function toggleMusic() {
-            if (song.paused) {
-                song.play();
-                btn.innerHTML = "⏸ Pause Music";
-            } else {
-                song.pause();
-                btn.innerHTML = "🎵 Play Music";
-            }
-        }
-
+        // Floating Hearts Background
         function createHeart() {
             const heart = document.createElement('div');
             heart.classList.add('floating-heart');
@@ -197,8 +180,12 @@ I'm so grateful for every second we’ve spent together.] \n\nAlways, \n[Rhenila
             heart.style.fontSize = Math.random() * 20 + 10 + 'px';
             heart.style.animationDuration = Math.random() * 3 + 2 + 's';
             document.body.appendChild(heart);
-            setTimeout(() => { heart.remove(); }, 5000);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
         }
+
         setInterval(createHeart, 300);
     </script>
 </body>
