@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Message For You</title>
+    <style>
+        :root {
+            --primary-color: #ff4d6d;
+            --bg-color: #fff0f3;
+            --envelope-color: #ff758f;
+            --paper-color: #ffffff;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Courier New', Courier, monospace;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Floating Hearts Background */
+        .floating-heart {
+            position: absolute;
+            color: var(--primary-color);
+            opacity: 0.6;
+            pointer-events: none;
+            animation: float Upwards linear forwards;
+            z-index: -1;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        .container {
+            position: relative;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .envelope {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            background: var(--envelope-color);
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .envelope::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            z-index: 2;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 100px solid var(--primary-color);
+            transform-origin: top;
+            transition: transform 0.5s 0.5s ease;
+        }
+
+        .letter {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            width: 280px;
+            height: 180px;
+            background: var(--paper-color);
+            padding: 20px;
+            box-sizing: border-box;
+            transition: transform 0.5s ease;
+            z-index: 1;
+            box-shadow: 0 -5px 10px rgba(0,0,0,0.05);
+            overflow-y: auto;
+        }
+
+        .text {
+            font-size: 14px;
+            color: #333;
+            line-height: 1.5;
+            white-space: pre-wrap;
+        }
+
+        .container.open .envelope::before { transform: rotateX(180deg); z-index: 0; }
+        .container.open .letter { transform: translateY(-120px); height: 280px; z-index: 2; }
+
+        .heart-seal {
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 30px;
+            z-index: 3;
+            transition: opacity 0.3s;
+        }
+
+        .container.open .heart-seal { opacity: 0; }
+
+        .instruction {
+            position: absolute;
+            bottom: -50px;
+            width: 100%;
+            text-align: center;
+            color: var(--primary-color);
+            font-weight: bold;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+        /* Music Button */
+        #music-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            display: none; /* Hidden until letter is opened */
+            z-index: 100;
+            font-family: inherit;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="love-song" loop>
+        <source src="YOUR_MP3_URL_HERE" type="audio/mpeg">
+    </audio>
+
+    <button id="music-btn" onclick="toggleMusic()">🎵 Play Music</button>
+
+    <div class="container" onclick="openLetter()">
+        <div class="envelope">
+            <div class="heart-seal">❤️</div>
+        </div>
+        <div class="letter">
+            <div class="text" id="typewriter"></div>
+        </div>
+        <p class="instruction">Tap the heart to open</p>
+    </div>
+
+    <script>
+        const message = "Happy 7th Monthsary, Love! \n\n[Hi baby!
+Writing this code made me think about us—how every day with you is like a perfect 'stable build' and every laugh we share is a 'feature' I never want to live without. Thank you for being my constant, my peace, and my greatest love. Im sorry for all the trouble i cost in our relationship. 
+
+I'm so grateful for every second we’ve spent together.] \n\nAlways, \n[Rhenila,your baby]";
+        
+        let i = 0;
+        const song = document.getElementById("love-song");
+        const btn = document.getElementById("music-btn");
+
+        function typeWriter() {
+            if (i < message.length) {
+                document.getElementById("typewriter").innerHTML += message.charAt(i);
+                i++;
+                setTimeout(typeWriter, 50);
+            }
+        }
+
+        function openLetter() {
+            document.querySelector('.container').classList.add('open');
+            btn.style.display = "block"; // Show music button
+            setTimeout(typeWriter, 1000);
+            // Try to play music automatically (works on some browsers)
+            song.play().catch(() => console.log("Autoplay blocked. User must click button."));
+        }
+
+        function toggleMusic() {
+            if (song.paused) {
+                song.play();
+                btn.innerHTML = "⏸ Pause Music";
+            } else {
+                song.pause();
+                btn.innerHTML = "🎵 Play Music";
+            }
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('floating-heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = Math.random() * 20 + 10 + 'px';
+            heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+            document.body.appendChild(heart);
+            setTimeout(() => { heart.remove(); }, 5000);
+        }
+        setInterval(createHeart, 300);
+    </script>
+</body>
+</html>
