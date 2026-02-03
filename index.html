@@ -24,7 +24,6 @@
             position: relative;
         }
 
-        /* Floating Hearts Background */
         .floating-heart {
             position: absolute;
             color: var(--primary-color);
@@ -45,7 +44,6 @@
             z-index: 10;
         }
 
-        /* The Envelope */
         .envelope {
             position: relative;
             width: 300px;
@@ -68,7 +66,6 @@
             transition: transform 0.5s 0.5s ease;
         }
 
-        /* Letter Paper */
         .letter {
             position: absolute;
             bottom: 10px;
@@ -91,17 +88,8 @@
             white-space: pre-wrap;
         }
 
-        /* Animation States */
-        .container.open .envelope::before {
-            transform: rotateX(180deg);
-            z-index: 0;
-        }
-
-        .container.open .letter {
-            transform: translateY(-150px);
-            height: 320px;
-            z-index: 2;
-        }
+        .container.open .envelope::before { transform: rotateX(180deg); z-index: 0; }
+        .container.open .letter { transform: translateY(-150px); height: 320px; z-index: 2; }
 
         .heart-seal {
             position: absolute;
@@ -114,9 +102,7 @@
             transition: opacity 0.3s;
         }
 
-        .container.open .heart-seal {
-            opacity: 0;
-        }
+        .container.open .heart-seal { opacity: 0; }
 
         .instruction {
             position: absolute;
@@ -128,10 +114,7 @@
             animation: blink 1.5s infinite;
         }
 
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
     </style>
 </head>
 <body>
@@ -147,15 +130,14 @@
     </div>
 
     <script>
-        // Set your message here
-        const message = `Happy Monthsary, my poging baby! ❤️ 
+        const message = `Happy Monthsary, Mahal! ❤️ 
 
-Every day with you is a gift given from the gods above. Thank you for being my constant and my greatest adventure. I'm so lucky to have you in my life. Im sorry for being immature and hard headed to you baby.
+Every day with you is a gift that I treasure. Thank you for being my constant, my peace, and my greatest adventure. I'm so incredibly lucky to have you in my life and I can't wait for all the memories we'll make next.
 
-I love you more than words can say!
+I love you more than words (or code) can say!
 
 Forever yours,
-[Rhenila, Your baby]`;
+Rhenila, your baby`;
         
         let i = 0;
         function typeWriter() {
@@ -171,7 +153,6 @@ Forever yours,
             setTimeout(typeWriter, 1000);
         }
 
-        // Floating Hearts Background
         function createHeart() {
             const heart = document.createElement('div');
             heart.classList.add('floating-heart');
@@ -180,12 +161,8 @@ Forever yours,
             heart.style.fontSize = Math.random() * 20 + 10 + 'px';
             heart.style.animationDuration = Math.random() * 3 + 2 + 's';
             document.body.appendChild(heart);
-
-            setTimeout(() => {
-                heart.remove();
-            }, 5000);
+            setTimeout(() => { heart.remove(); }, 5000);
         }
-
         setInterval(createHeart, 300);
     </script>
 </body>
